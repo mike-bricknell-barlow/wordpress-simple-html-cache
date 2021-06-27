@@ -25,6 +25,10 @@ function shc_activation () {
     if ( ! file_exists ( WPMU_PLUGIN_DIR ) ) {
         mkdir ( WPMU_PLUGIN_DIR, 0777, true );
     }
+
+    if ( ! file_exists ( SIMPLE_HTML_CACHE_PLUGIN_DIR_PATH . '/cache/' ) ) {
+        mkdir ( SIMPLE_HTML_CACHE_PLUGIN_DIR_PATH . '/cache/', 0755, true );
+    }
     
     copy ( 
         SIMPLE_HTML_CACHE_PLUGIN_DIR_PATH . DIRECTORY_SEPARATOR . 'mu-plugins' . DIRECTORY_SEPARATOR . 'shc_output_buffering.php',
