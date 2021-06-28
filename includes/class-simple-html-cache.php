@@ -3,6 +3,7 @@
 class SimpleHTMLCache {
     function __construct() {
         add_filter( 'shc_final_output', [ $this, 'save_cache_file' ] );
+        add_filter( 'final_output', [ $this, 'save_cache_file' ] );
         add_action( 'template_redirect', [ $this, 'serve_from_cache' ] );
         add_action( 'admin_bar_menu', [ $this, 'add_clear_cache_button' ], 500 );
         add_action( 'admin_init', [ $this, 'purge_cache' ] );
@@ -125,6 +126,11 @@ class SimpleHTMLCache {
 
         if( is_admin() || $GLOBALS['pagenow'] === 'wp-login.php' ) {
             // Don't save to cache in admin area
+            return $html;
+        }
+
+        if( is_plugin_active( 'simple-webp-images/simple-webp-images.php' ) && current_filter() !== 'final_output' ) {
+            // If Simple Webp Images is installed, hook into it's final_output filter instead
             return $html;
         }
         
